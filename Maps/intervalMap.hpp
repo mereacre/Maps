@@ -39,9 +39,9 @@
 template<class K, class V>
 class interval_map {
 public:
-	friend void IntervalMapTest(interval_map<K,V>&);
+	friend void IntervalMapTest();
 	
-private:	
+public:
 	std::map<K,V> m_map;
 
 public:
@@ -78,17 +78,40 @@ public:
 		// you may use any documentation of the C++ language or the C++ Standard Library.
 		// Do not give your solution to others or make it public. It will entice others into
 		// sending in plagiarized solutions.
-        typename std::map<K,V>::iterator itlowBegin,itlowEnd, tmpIt;
+        typename std::map<K,V>::iterator itlowBegin,itlowEnd, prevLowBeginIt, prevLowEndIt;
+        bool writeEnd = 1, writeBegin = 1;;
+        
         V valueBegin, valueEnd;
         itlowBegin = m_map.lower_bound(keyBegin);
         itlowEnd = m_map.lower_bound(keyEnd);
         
         valueBegin = val;
+        if(itlowBegin==m_map.end()) {
+            
+        }else {
+            prevLowBeginIt = itlowBegin; --prevLowBeginIt;
+            
+            if(prevLowBeginIt->second==val)
+                writeBegin = 0;
+        }
+        
         if(itlowEnd==m_map.end()) {
             valueEnd = m_map.begin()->second;
+        } else {
+            prevLowEndIt = itlowEnd; --prevLowEndIt;
+            valueEnd = prevLowEndIt->second;
+            
+            if(valueEnd==val)
+                writeEnd = 0;
         }
-        m_map.insert(std::pair<K,V>(keyBegin,valueBegin));
-        m_map.insert(std::pair<K,V>(keyEnd,valueEnd));
+        
+        m_map.erase(itlowBegin,itlowEnd);
+        
+        if(writeBegin)
+            m_map.insert(std::pair<K,V>(keyBegin,valueBegin));
+        
+        if(writeEnd)
+            m_map.insert(std::pair<K,V>(keyEnd,valueEnd));
 
 	}
 
@@ -102,8 +125,6 @@ public:
 // for example using a map of unsigned int intervals to char.
 // Many solutions we receive are incorrect. Consider using a randomized test to discover 
 // the cases that your implementation does not handle correctly.
-template<class K, class V>
-void IntervalMapTest(interval_map<K,V>& inMap);
 
 //int main(int argc, char* argv[]) {
 //	IntervalMapTest();
