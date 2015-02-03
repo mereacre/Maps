@@ -10,27 +10,33 @@
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <map>
 
 #define N_DATA 10
 
 class KeyInt {
 public:
-    KeyInt(){ key = 0; }
+    KeyInt(){ key = -1; }
     KeyInt(int keyIn):key(keyIn){}
     
-    int GetKey() { return key; }
+    int GetKey() const { return key; }
     void SetKey(int keyIn) { key = keyIn; }
     
-    bool operator < (const KeyInt& valtwo) { return this->key<valtwo.key; }
+    
+    int GetMin() const { return -1; }
     
 private:
     int key;
 
 };
 
+bool operator < (const KeyInt& valone, const KeyInt& valtwo) {
+    return valone.GetKey()<valtwo.GetKey();
+}
+
 class ValueChar {
 public:
-    ValueChar() { value = 0;}
+    ValueChar() { value = -1;}
     ValueChar(char val):value(val){}
     
     void SetValue(char valueIn) { value = valueIn; }
@@ -70,8 +76,7 @@ bool InsertInArray(std::vector<Element<KeyInt,ValueChar>> &arrIn, Element<KeyInt
             continue;
         }
         else if(element.key<(*it).key && (*it).value==element.value) {
-            arrIn.insert(it, element);
-            arrIn.erase(it+1);
+            arrIn.insert(arrIn.erase(it), element);
             
             if(!((*previt).key<element.key))
                 arrIn.erase(previt);
@@ -82,84 +87,151 @@ bool InsertInArray(std::vector<Element<KeyInt,ValueChar>> &arrIn, Element<KeyInt
     
     if(!(element.key<(*previt).key) && !((*previt).value==element.value))
         arrIn.insert(it, element);
+    
     return 1;
 }
 
-void ShowArray(std::vector<Element<KeyInt, ValueChar>> &arrIn)
+void ShowArray(std::vector<Element<KeyInt, ValueChar>> arrIn)
 {
     for (int idx = 0; idx<arrIn.size(); idx++) {
         std::cout << arrIn[idx].key.GetKey()<<"->"<<arrIn[idx].value.GetValue()<<"\n";
     }
 }
 
+std::vector<Element<KeyInt, ValueChar>> GenLongArr(std::vector<Element<KeyInt, ValueChar>> &arrIn)
+{
+    
+    std::vector<Element<KeyInt,ValueChar>> arr;
+    
+    for (int idx = 0; idx<arrIn.size()-1; idx++) {
+        int firstIdx = (arrIn[idx].key.GetKey()==arrIn[idx].key.GetMin()) ? 0 : arrIn[idx].key.GetKey();
+        for (int j = firstIdx; j<arrIn[idx+1].key.GetKey(); j++)
+            arr.push_back(arrIn[idx]);
+    }
+    
+    arr.push_back(arrIn[arrIn.size()-1]);
+    
+    return arr;
+}
+
+std::vector<Element<KeyInt, ValueChar>> GenLongMap(std::multimap<KeyInt,ValueChar> &mmap)
+{
+    Element<KeyInt,ValueChar> elem;
+    
+    std::vector<Element<KeyInt,ValueChar>> arr;
+    std::multimap<KeyInt,ValueChar>::iterator it = mmap.begin(), nextit = mmap.begin();
+    ++nextit;
+    while(nextit!=mmap.end()) {
+        int firstIdx = ((*it).first.GetKey()==(*it).first.GetMin()) ? 0 : (*it).first.GetKey();
+        
+        elem.key = (*it).first;
+        elem.value = (*it).second;
+        
+        for (int j = firstIdx; j<(*nextit).first.GetKey(); j++)
+            arr.push_back(elem);
+        
+        it = nextit;
+        ++nextit;
+    }
+    
+    elem.key = (*it).first;
+    elem.value = (*it).second;
+    arr.push_back(elem);
+    
+    return arr;
+}
+
+void ProcessMultiMap(std::multimap<KeyInt,ValueChar> &mmap)
+{
+    std::multimap<KeyInt,ValueChar>::iterator it = mmap.begin(), nextit = mmap.begin();
+    ++nextit;
+    
+    while(nextit!=mmap.end()) {
+        if((*nextit).second.GetValue()==(*it).second.GetValue())
+            nextit = mmap.erase(nextit);
+        else {
+            it = nextit;
+            ++nextit;
+        }
+    }
+}
+
+bool CompareArrMap(std::vector<Element<KeyInt, ValueChar>> &arrIn, std::multimap<KeyInt,ValueChar> &mmap)
+{
+    std::vector<Element<KeyInt,ValueChar>>::iterator itArr = arrIn.begin();
+    std::multimap<KeyInt,ValueChar>::iterator itMap = mmap.begin();
+    if(arrIn.size()!=mmap.size()) {
+        std::cout<<"Diffent sizes: "<<arrIn.size()<<" "<<mmap.size()<<"\n";
+        return 0;
+    }
+    for(;itArr!=arrIn.end();++itArr,++itMap) {
+        if((*itArr).key.GetKey()!=(*itMap).first.GetKey() || (*itArr).value.GetValue()!=(*itMap).second.GetValue()) {
+            std::cout<<"Different keys or values "<<(*itArr).key.GetKey()<<":"<<(*itMap).first.GetKey()<<"|"<<(*itArr).value.GetValue()<<":"<<(*itMap).second.GetValue()<<"\n";
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void InsertIntoMap(std::multimap<KeyInt,ValueChar> &mmap, KeyInt keyBegin, KeyInt keyEnd, ValueChar val)
+{
+    std::multimap<KeyInt,ValueChar>::iterator itKeyEnd = mmap.upper_bound(keyEnd);
+    std::multimap<KeyInt,ValueChar>::iterator itKeyBegin = mmap.lower_bound(keyBegin);
+    std::multimap<KeyInt,ValueChar>::iterator nextit = mmap.erase(itKeyBegin, itKeyEnd);
+    
+    mmap.insert(nextit, std::make_pair(keyBegin, val));
+    ProcessMultiMap(mmap);
+}
+
 int main(int argc, const char * argv[]) {
     std::vector<Element<KeyInt,ValueChar>> arr;
+    std::multimap<KeyInt,ValueChar> multiMap;
     
     srand (time(NULL));
     
-    Element<KeyInt,ValueChar> elemone;
-    elemone.key.SetKey(3);
-    elemone.value.SetValue('B');
+    Element<KeyInt,ValueChar> elem;
     
-    InsertInArray(arr, elemone);
-
-    Element<KeyInt,ValueChar> elemtwo;
-    elemtwo.key.SetKey(0);
-    elemtwo.value.SetValue('A');
+    KeyInt key = elem.key;
+    ValueChar value = elem.value;
     
-    InsertInArray(arr, elemtwo);
-
-    Element<KeyInt,ValueChar> elemthree;
-    elemthree.key.SetKey(5);
-    elemthree.value.SetValue('A');
+    InsertInArray( arr, elem);
+    multiMap.insert(std::make_pair(key, value));
     
-    InsertInArray(arr, elemthree);
 
-    /*
     for (int idx = 0; idx<N_DATA; idx++) {
         Element<KeyInt,ValueChar> elem;
         
-        elem.key.SetKey(rand()%1000);
-        elem.value.SetValue(65+rand()%25);
-        std::cout << elem.key.GetKey()<<"->"<<elem.value.GetValue()<<"\n";
-        InsertInArray(arr, elem);
+        elem.key.SetKey(rand()%5);
+        elem.value.SetValue(65+rand()%5);
+        
+        key = elem.key;
+        value = elem.value;
+        
+        multiMap.insert(std::make_pair(key, value));
+        //ProcessMultiMap(multiMap);
+        
+        std::cout <<">"<< elem.key.GetKey()<<"->"<<elem.value.GetValue()<<"\n";
+        InsertInArray( arr, elem);
+        ShowArray(arr);
+        std::cout<<"\n";
     }
-    */
+    
+    std::multimap<KeyInt,ValueChar>::iterator it = multiMap.begin();
+    ProcessMultiMap(multiMap);
     
     
-    Element<KeyInt,ValueChar> elemfour;
-    elemfour.key.SetKey(2);
-    elemfour.value.SetValue('B');
-    
-    InsertInArray(arr, elemfour);
-    
-
-    Element<KeyInt,ValueChar> elemfive;
-    elemfive.key.SetKey(6);
-    elemfive.value.SetValue('A');
-    
-    InsertInArray(arr, elemfive);
-
-    Element<KeyInt,ValueChar> elemsix;
-    elemsix.key.SetKey(1);
-    elemsix.value.SetValue('A');
-    
-    InsertInArray(arr, elemsix);
-    
-    Element<KeyInt,ValueChar> elemseven;
-    elemseven.key.SetKey(0);
-    elemseven.value.SetValue('B');
-    
-    InsertInArray(arr, elemseven);
-
-    Element<KeyInt,ValueChar> elemeight;
-    elemeight.key.SetKey(5);
-    elemeight.value.SetValue('B');
-    
-    InsertInArray(arr, elemeight);
-
     std::cout<<"\n";
+    it = multiMap.begin();
+    for(;it!=multiMap.end(); ++it) {
+        std::cout << (*it).first.GetKey()<<"->"<<(*it).second.GetValue()<<"\n";
+    }
+
+    std::cout<<"::\n";
+    ShowArray(GenLongMap(multiMap));
+    std::cout<<"[]\n";
+    ShowArray(GenLongArr(arr));
     
-    ShowArray(arr);
+    //if(!CompareArrMap(arr, multiMap))
+    //    return 1;
     return 0;
 }
