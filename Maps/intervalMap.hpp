@@ -38,7 +38,8 @@
 
 template<class K, class V>
 class interval_map {
-	friend void IntervalMapTest();
+public:
+	friend void IntervalMapTest(interval_map<K,V>&);
 	
 private:	
 	std::map<K,V> m_map;
@@ -77,6 +78,18 @@ public:
 		// you may use any documentation of the C++ language or the C++ Standard Library.
 		// Do not give your solution to others or make it public. It will entice others into
 		// sending in plagiarized solutions.
+        typename std::map<K,V>::iterator itlowBegin,itlowEnd, tmpIt;
+        V valueBegin, valueEnd;
+        itlowBegin = m_map.lower_bound(keyBegin);
+        itlowEnd = m_map.lower_bound(keyEnd);
+        
+        valueBegin = val;
+        if(itlowEnd==m_map.end()) {
+            valueEnd = m_map.begin()->second;
+        }
+        m_map.insert(std::pair<K,V>(keyBegin,valueBegin));
+        m_map.insert(std::pair<K,V>(keyEnd,valueEnd));
+
 	}
 
 	// look-up of the value associated with key
@@ -89,11 +102,13 @@ public:
 // for example using a map of unsigned int intervals to char.
 // Many solutions we receive are incorrect. Consider using a randomized test to discover 
 // the cases that your implementation does not handle correctly.
+template<class K, class V>
+void IntervalMapTest(interval_map<K,V>& inMap);
 
-int main(int argc, char* argv[]) {
-	IntervalMapTest();
-	return 0;
-}
+//int main(int argc, char* argv[]) {
+//	IntervalMapTest();
+//	return 0;
+//}
 
 /*
 The following paragraphs from the final draft of the C++1x ISO standard describe the available 
