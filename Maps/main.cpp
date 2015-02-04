@@ -11,11 +11,12 @@
 #include <time.h>
 #include <stdlib.h>
 #include <map>
-//#include "intervalMap.hpp"
 #include "unittest.h"
 
 int main(int argc, const char * argv[]) {
     
-    RunAllTests();
+    interval_map<int,char> test(0);
+    IntervalMapTest(test);
+    
     return 0;
 }

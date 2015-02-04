@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Maps/unittest.h"
-            timestampString = "444694023.14915"
+            timestampString = "444765174.325866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "TestAddingTwoIntervals()"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "TestAddingTwoIntervals(interval_map&lt;K,V&gt; &amp;mapIn)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Maps/unittest.h"
-            timestampString = "444695363.994689"
+            timestampString = "444765174.325866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "TestAddingOverlapingOneInterval()"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "TestAddingOverlapingOneInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Maps/unittest.h"
-            timestampString = "444696258.073944"
+            timestampString = "444765174.325866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "TestAddingOverlapingSameInterval()"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "TestAddingOverlapingSameInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,108 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Maps/unittest.h"
-            timestampString = "444697239.523699"
+            timestampString = "444765174.325866"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "TestAddingOverlapingSameTwoInterval()"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "TestAddingOverlapingSameTwoInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765174.325866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "TestAddingEndInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765174.325866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "TestAddingEndTwoInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765174.325866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "TestAddingOneInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765174.325866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "TestAddingBeginningInterval(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765174.325866"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "TestAddingThreeIntervals(interval_map&lt;K,V&gt; &amp;mapIn)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Maps/unittest.h"
+            timestampString = "444765669.894004"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
+            landmarkName = "IntervalMapTest(interval_map&lt;K,V&gt; &amp;mapIn)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
