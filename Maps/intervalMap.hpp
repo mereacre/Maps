@@ -41,11 +41,13 @@ template<class K, class V> void TestInitialInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOneInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingTwoIntervals(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingThreeIntervals(interval_map<K,V> &mapIn);
+template<class K, class V> void TestAddingFourIntervals(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingTwoNegativeIntervals(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOverlapingSameInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOverlapingSameOneInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOverlapingSameTwoInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOverlapingSameThreeInterval(interval_map<K,V> &mapIn);
+template<class K, class V> void TestAddingOverlapingSameFourInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingEndInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingEndOneInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingEndTwoInterval(interval_map<K,V> &mapIn);
@@ -57,6 +59,11 @@ template<class K, class V> void TestCompareArray(interval_map<K,V> &mapIn);
 template<class K, class V> void TestCanonicityMap(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingWholeInterval(interval_map<K,V> &mapIn);
 template<class K, class V> void TestAddingOverlapingOneInterval(interval_map<K,V> &mapIn);
+template<class K, class V> void TestRandomCanonicity(interval_map<K,V> &mapIn);
+template<class K, class V> void TestRandomOneCanonicity(interval_map<K,V> &mapIn);
+template<class K, class V> void TestRandomTwoCanonicity(interval_map<K,V> &mapIn);
+template<class K, class V> void TestRandomThreeCanonicity(interval_map<K,V> &mapIn);
+template<class K, class V> void TestRandomFourCanonicity(interval_map<K,V> &mapIn);
 
 template<class K, class V>
 class interval_map {
@@ -64,18 +71,24 @@ public:
 	friend void IntervalMapTest <> (interval_map<K,V> &mapIn);
     
     friend void TestInitialInterval <> (interval_map<K,V> &mapIn);
+    
     friend void TestAddingOneInterval <> (interval_map<K,V> &mapIn);
-
     friend void TestAddingTwoIntervals <> (interval_map<K,V> &mapIn);
     friend void TestAddingThreeIntervals <> (interval_map<K,V> &mapIn);
+    friend void TestAddingFourIntervals <> (interval_map<K,V> &mapIn);
+
     friend void TestAddingTwoNegativeIntervals <> (interval_map<K,V> &mapIn);
+    
     friend void TestAddingOverlapingSameInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingOverlapingSameOneInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingOverlapingSameTwoInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingOverlapingSameThreeInterval <> (interval_map<K,V> &mapIn);
+    friend void TestAddingOverlapingSameFourInterval <> (interval_map<K,V> &mapIn);
+
     friend void TestAddingEndInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingEndOneInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingEndTwoInterval <> (interval_map<K,V> &mapIn);
+    
     friend void TestAddingBeginningInterval <> (interval_map<K,V> &mapIn);
     friend void TestAddingWholeInterval <> (interval_map<K,V> &mapIn);
 
@@ -85,8 +98,12 @@ public:
     friend void TestCompareArray <> (interval_map<K,V> &mapIn);
     friend void TestCanonicityMap <> (interval_map<K,V> &mapIn);
     friend void TestAddingOverlapingOneInterval <> (interval_map<K,V> &mapIn);
+    friend void TestRandomCanonicity <> (interval_map<K,V> &mapIn);
+    friend void TestRandomOneCanonicity <> (interval_map<K,V> &mapIn);
+    friend void TestRandomTwoCanonicity <> (interval_map<K,V> &mapIn);
+    friend void TestRandomThreeCanonicity <> (interval_map<K,V> &mapIn);
+    friend void TestRandomFourCanonicity <> (interval_map<K,V> &mapIn);
 
-    
 private:
 	std::map<K,V> m_map;
 
@@ -97,8 +114,8 @@ public:
 	interval_map( V const& val) {
 		m_map.insert(m_map.begin(),std::make_pair(std::numeric_limits<K>::min(),val));
 	};
-
-	// Assign value val to interval [keyBegin, keyEnd). 
+    
+	// Assign value val to interval [keyBegin, keyEnd).
 	// Overwrite previous values in this interval. Do not change values outside this interval.
 	// Conforming to the C++ Standard Library conventions, the interval includes keyBegin, but excludes keyEnd.
 	// If !( keyBegin < keyEnd ), this designates an empty interval, and assign must do nothing.
@@ -126,7 +143,6 @@ public:
 		// you may use any documentation of the C++ language or the C++ Standard Library.
 		// Do not give your solution to others or make it public. It will entice others into
 		// sending in plagiarized solutions.
-        
         typename std::map<K,V>::iterator itlowBegin, itlowEnd, prevIt;
         bool writeEnd = 1, writeBegin = 1, deleteNext = 0;
         
@@ -145,46 +161,42 @@ public:
         }
         
         itlowBegin = m_map.lower_bound(keyBegin);
+        itlowEnd = m_map.lower_bound(keyEnd);
         prevIt = itlowBegin;
-
+        
         if(checkBegin)
             --prevIt;
-
+        
         if(prevIt->second==val)
             writeBegin = 0;
         
-        if (!writeBegin)
-            return;
-        else
-            itlowEnd = m_map.lower_bound(keyEnd);
-            
-        if(itlowEnd==m_map.end())
-            prevIt = itlowBegin;
-        else
-            prevIt = itlowEnd;
+        prevIt = itlowEnd;
         
         --prevIt;
         
-        if(prevIt->second==val)
-            writeEnd = 0;
-        
-        if(itlowEnd->second==val) {
+        if(!(keyEnd<itlowEnd->first) && itlowEnd->second==val) {
             writeEnd = 0;
             deleteNext = 1;
-        }
+        } else if(prevIt->second==val)
+            writeEnd = 0;
         
         valueEnd = prevIt->second;
+        
 
-        if(deleteNext == 1)
+        if(deleteNext == 1 && itlowEnd!=m_map.end())
             itlowEnd++;
-        m_map.erase(itlowBegin,itlowEnd);
-        m_map.insert(std::pair<K,V>(keyBegin,val));
+        
+        if(itlowBegin!=m_map.end())
+            prevIt = m_map.erase(itlowBegin,itlowEnd);
+        
+        if(writeBegin)
+            m_map.insert(prevIt,std::pair<K,V>(keyBegin,val));
         
         if(writeEnd && checkEnd)
-            m_map.insert(std::pair<K,V>(keyEnd,valueEnd));
-
+            m_map.insert(prevIt, std::pair<K,V>(keyEnd,valueEnd));
+    
 	}
-
+    
 	// look-up of the value associated with key
 	V const& operator[]( K const& key ) const {
 		return ( --m_map.upper_bound(key) )->second;
