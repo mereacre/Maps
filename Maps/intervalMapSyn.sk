@@ -4,28 +4,38 @@ struct Interval{
     int[size] Values;
 }
 
-Interval InsertInterval(Interval in, int keyBegin, int keyEnd)
+Interval InsertInterval(Interval in, int keyBegin, int keyEnd, int Value)
 {
-    int[N] resSize = 0;
-    if(N>1)
-        return new Interval();
-    else
-        return outInterval;
+    Interval outInterval;
+    outInterval.size = in.size;
+    outInterval.Keys = in.Keys;
+    outInterval.Values = in.Values;
+
+    if(in.size>1)
+    	return outInterval;
+	else
+		return outInterval;
+
 }
 
-void CheckInterval([int N], int[N] Interval)
+void CheckInterval(Interval in)
 {
-    assert N>1;
+    assert in.size>1;
 
-    for (int i=0; i<N-1; i++)
+    for (int i=0; i<in.size-1; i++)
     {
-        assert Interval[i]!=Interval[i+1];
+        assert in.Value[i]!=in.Value[i+1] && in.Keys[i]<in.Keys[i+1];
     }
+
 }
 
-void main(int[N] Interval, int keyBegin, int keyEnd)
+void main(Interval in, int keyBegin, int keyEnd, int Value)
 {
-    int[N] outInterval = 0;
+    Interval outInterval;
+
+    outInterval.size = in.size;
+    outInterval.Keys = in.Keys;
+    outInterval.Values = in.Values;
 
     outInterval = outInterval(Interval, keyBegin, keyEnd);
 
