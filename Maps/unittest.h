@@ -483,11 +483,11 @@ void TestCanonicity(interval_map<K,V> &mapIn)
     
     srand (time(NULL));
     
-    int arraySize = 100000;
+    int arraySize = 10;
     
     for (int idx=0; idx<arraySize; idx++) {
         int keyBegin = rand()%arraySize, keyEnd = rand()%arraySize;
-        char secondValue = 'A'+rand()%24;
+        char secondValue = 'A'+rand()%10;
         map.assign(keyBegin, keyEnd, secondValue);
     }
     
@@ -837,8 +837,9 @@ void IntervalMapTest(interval_map<K,V> &mapIn)
     TestRandomThreeCanonicity(mapIn);
     TestRandomFourCanonicity(mapIn);
     
-    for (int idx=0; idx<10000; idx++) {
-        TestCompareArray(mapIn);
+    for (int idx=0; idx<1000; idx++) {
+        //TestCompareArray(mapIn);
+        TestCanonicity(mapIn);
         std::cout<<"\n";
     }
 

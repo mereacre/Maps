@@ -13,6 +13,12 @@
 #include <map>
 #include "unittest.h"
 
+# ifdef _NDEBUG
+# undef _STLP_DEBUG
+# else
+# define _STLP_DEBUG 1
+# endif
+
 int main(int argc, const char * argv[]) {
     
     interval_map<int,char> test(0);

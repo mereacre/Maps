@@ -1,0 +1,33 @@
+struct Interval{
+    int size;
+    int[size] Keys;
+    int[size] Values;
+}
+
+Interval InsertInterval(Interval in, int keyBegin, int keyEnd)
+{
+    int[N] resSize = 0;
+    if(N>1)
+        return new Interval();
+    else
+        return outInterval;
+}
+
+void CheckInterval([int N], int[N] Interval)
+{
+    assert N>1;
+
+    for (int i=0; i<N-1; i++)
+    {
+        assert Interval[i]!=Interval[i+1];
+    }
+}
+
+void main(int[N] Interval, int keyBegin, int keyEnd)
+{
+    int[N] outInterval = 0;
+
+    outInterval = outInterval(Interval, keyBegin, keyEnd);
+
+    CheckInterval(outInterval);
+}
